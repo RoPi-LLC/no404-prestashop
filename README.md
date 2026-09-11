@@ -1,5 +1,9 @@
 # no404 – Auto 404 Redirect for PrestaShop
 
+<p align="center">
+  <img src="screen/screen_01.webp" alt="no404 turns the 404s of a PrestaShop store into server-side 301/302 redirects to the closest live page" width="100%">
+</p>
+
 > **Status: in development — not released.** The core, the storefront redirect and the
 > settings page (with the connection test and a Turkish translation) are written and
 > unit-tested, but nothing has been run on a real PrestaShop installation yet. Anything
@@ -23,6 +27,10 @@ dead path to `https://www.no404.tr/api/v1/resolve` and gets back the best target
 
 ## What this module does for a PrestaShop merchant
 
+<p align="center">
+  <img src="screen/screen_02.webp" alt="A deleted product URL is matched automatically to the closest live product page" width="100%">
+</p>
+
 - **A real 301, server side.** The JavaScript snippet documented at no404.tr works on any
   platform but leaves the HTTP status at 404: Google still sees a dead page, no link
   equity is passed, and bots that do not run JavaScript are never redirected. This module
@@ -45,6 +53,10 @@ dead path to `https://www.no404.tr/api/v1/resolve` and gets back the best target
 - **Defers to PrestaShop.** If a product or category has its own PrestaShop redirect
   setting (301/302 to another product or category), PrestaShop handles it first and this
   module is never involved.
+
+<p align="center">
+  <img src="screen/screen_05.webp" alt="Traffic from ads, search results and old backlinks lands on a live page instead of a 404" width="100%">
+</p>
 
 ## How it works
 
@@ -81,6 +93,10 @@ Location: <target>  with 301 or 302 (from redirectStatus)  +  X-Redirect-By: no4
 If anything goes wrong at any step — the service is slow, down, or returns something
 unexpected — the module does nothing and PrestaShop renders your own 404 page as usual.
 
+<p align="center">
+  <img src="screen/screen_03.webp" alt="Broken URLs are matched to the closest live URLs without writing redirect rules one by one" width="100%">
+</p>
+
 ### Which 404s are covered
 
 | Situation | Handled |
@@ -92,6 +108,10 @@ unexpected — the module does nothing and PrestaShop renders your own 404 page 
 | Product or category that is disabled and set to redirect (301/302) in PrestaShop | Not needed — PrestaShop redirects it itself. |
 | CMS page removed from the shop | **Partially** — PrestaShop redirects to its 404 page first, so the original path is lost. |
 | Missing static file (`/img/…`, `/css/…`) | Deliberately ignored — it has no catalogue counterpart and would only use quota. |
+
+<p align="center">
+  <img src="screen/screen_06.webp" alt="Deleted products, renamed slugs, ended campaign pages and restructured categories" width="100%">
+</p>
 
 ### Friendly URLs must be on
 
@@ -136,6 +156,11 @@ After installing:
 
 The API key is the only value you need to enter. The service address field is already
 filled in correctly.
+
+<p align="center">
+  <img src="screen/screen_04.webp" alt="Setup in three steps: install the module, paste the API key, test the connection" width="100%">
+</p>
+<p align="center"><sub>Illustration of the settings page. The real page has a few more options — see <a href="#configuration">Configuration</a> for every field and its default.</sub></p>
 
 ## Configuration
 
