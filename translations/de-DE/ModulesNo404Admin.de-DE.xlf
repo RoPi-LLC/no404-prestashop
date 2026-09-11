@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/no404" source-language="en-US" target-language="de-DE" datatype="plaintext">
+    <body>
+      <trans-unit id="10174168e217c367f0c5ba92379bdea9">
+        <source>APCu is selected as the cache backend but is not available on this server; files are used instead.</source>
+        <target>APCu ist als Cache-Speicher gewählt, auf diesem Server aber nicht verfügbar; stattdessen werden Dateien verwendet.</target>
+      </trans-unit>
+      <trans-unit id="f3c40321d4cfae5c73d351a1c76b5027">
+        <source>APCu, then files</source>
+        <target>APCu, dann Dateien</target>
+      </trans-unit>
+      <trans-unit id="656a6828d7ef1bb791e42087c4b5ee6e">
+        <source>API key</source>
+        <target>API-Schlüssel</target>
+      </trans-unit>
+      <trans-unit id="a845de02c5739915ba00712741f6c3b3">
+        <source>Access denied (403). Your subscription may be inactive, monitoring for this site may be paused, or your account may be suspended.</source>
+        <target>Zugriff verweigert (403). Möglicherweise ist Ihr Abonnement inaktiv, die Überwachung dieser Website pausiert oder Ihr Konto gesperrt.</target>
+      </trans-unit>
+      <trans-unit id="77309dc03d9aca5140cc57e1b250336d">
+        <source>Access denied (403): %detail%. Your subscription may be inactive, monitoring for this site may be paused, or your account may be suspended.</source>
+        <target>Zugriff verweigert (403): %detail%. Möglicherweise ist Ihr Abonnement inaktiv, die Überwachung dieser Website pausiert oder Ihr Konto gesperrt.</target>
+      </trans-unit>
+      <trans-unit id="39fe4fcdb3b456a0c8b1e74f81cda30a">
+        <source>Active. 404s on this shop are redirected server-side.</source>
+        <target>Aktiv. 404-Fehler in diesem Shop werden serverseitig weitergeleitet.</target>
+      </trans-unit>
+      <trans-unit id="7ec3e84f868508467f6c90a33bbae050">
+        <source>Adds X-No404-* headers to 404 responses to help support diagnose a setup. They never contain the API key or visitor data.</source>
+        <target>Fügt 404-Antworten X-No404-*-Header hinzu, damit der Support eine Einrichtung prüfen kann. Sie enthalten nie den API-Schlüssel oder Besucherdaten.</target>
+      </trans-unit>
+      <trans-unit id="3445bebcd17b223127833c6b7301f82d">
+        <source>Also redirects 404 pages that PrestaShop renders without its &quot;page not found&quot; event — for example a disabled product set to &quot;404 Not Found&quot;. It only runs on responses that are already 404s. Off by default.</source>
+        <target>Leitet auch 404-Seiten weiter, die PrestaShop ohne sein „Seite nicht gefunden“-Ereignis ausgibt — zum Beispiel ein deaktiviertes Produkt mit der Einstellung „404 Not Found“. Läuft nur bei Antworten, die bereits 404 sind. Standardmäßig aus.</target>
+      </trans-unit>
+      <trans-unit id="1e2b8a61d62dc865f0e0a3876ac9c9cb">
+        <source>Apply no404 redirects</source>
+        <target>no404-Weiterleitungen anwenden</target>
+      </trans-unit>
+      <trans-unit id="8c4697883aed5b401079b1ea6521fabf">
+        <source>By default the 301/302 choice follows the 301 threshold set for this site in the no404 dashboard. A 301 is cached permanently by browsers and cannot be taken back — enable this only if you are confident in your catalogue.</source>
+        <target>Standardmäßig richtet sich die Wahl zwischen 301 und 302 nach dem 301-Schwellenwert, der im no404-Dashboard für diese Website festgelegt ist. Ein 301 wird von Browsern dauerhaft gespeichert und lässt sich nicht zurücknehmen — aktivieren Sie dies nur, wenn Sie Ihrem Katalog vertrauen.</target>
+      </trans-unit>
+      <trans-unit id="689a36fa5a52a1fd8cd4bc975d16d9ed">
+        <source>Cache backend</source>
+        <target>Cache-Speicher</target>
+      </trans-unit>
+      <trans-unit id="ef777a3410eaec64429c2ed555f8472b">
+        <source>Cache directory</source>
+        <target>Cache-Verzeichnis</target>
+      </trans-unit>
+      <trans-unit id="ddb79dadc72d8d792398445999bc7327">
+        <source>Cache lifetime (seconds)</source>
+        <target>Cache-Dauer (Sekunden)</target>
+      </trans-unit>
+      <trans-unit id="193094906bea35494b075cf9cd701195">
+        <source>Catch-all mode</source>
+        <target>Catch-all-Modus</target>
+      </trans-unit>
+      <trans-unit id="9187991db982a8ff32114f3544cf4fbc">
+        <source>Connection succeeded. Suggested target for the test path: %target% (source: %source%, score: %score%).</source>
+        <target>Verbindung erfolgreich. Vorgeschlagenes Ziel für den Testpfad: %target% (Quelle: %source%, Wert: %score%).</target>
+      </trans-unit>
+      <trans-unit id="65bd22f58e78cc569876c9493d28bada">
+        <source>Connection succeeded. Your API key is valid; no match was found for the test path, which is what we expect.</source>
+        <target>Verbindung erfolgreich. Ihr API-Schlüssel ist gültig; für den Testpfad wurde kein Treffer gefunden, wie erwartet.</target>
+      </trans-unit>
+      <trans-unit id="45d756514c1917685dce2191d0b68e0d">
+        <source>Connection test</source>
+        <target>Verbindungstest</target>
+      </trans-unit>
+      <trans-unit id="01cd427bfb18d91bad3735942be30c48">
+        <source>Copy it from your no404 dashboard: your site &gt; Integration. It is used server-side only. Leave the field empty to keep the saved key.</source>
+        <target>Kopieren Sie ihn aus Ihrem no404-Dashboard: Ihre Website &gt; Integration. Er wird nur serverseitig verwendet. Lassen Sie das Feld leer, um den gespeicherten Schlüssel zu behalten.</target>
+      </trans-unit>
+      <trans-unit id="08d72955997a45d9e14d27090327d937">
+        <source>Could not reach the no404 server. Make sure your server is allowed to make outbound HTTPS requests.</source>
+        <target>Der no404-Server war nicht erreichbar. Stellen Sie sicher, dass Ihr Server ausgehende HTTPS-Anfragen senden darf.</target>
+      </trans-unit>
+      <trans-unit id="6230e868b25ea20e4e65a77911537c3d">
+        <source>Could not reach the no404 server: %detail%. Make sure your server is allowed to make outbound HTTPS requests.</source>
+        <target>Der no404-Server war nicht erreichbar: %detail%. Stellen Sie sicher, dass Ihr Server ausgehende HTTPS-Anfragen senden darf.</target>
+      </trans-unit>
+      <trans-unit id="992ebe25834999e0a12a50f4bbc3a97a">
+        <source>Debug headers</source>
+        <target>Debug-Header</target>
+      </trans-unit>
+      <trans-unit id="867fc450d6b860a8ba6df2ef2cea23c4">
+        <source>Excluded paths</source>
+        <target>Ausgeschlossene Pfade</target>
+      </trans-unit>
+      <trans-unit id="91f3a2c0e4424c87689525da44c4db11">
+        <source>Files</source>
+        <target>Dateien</target>
+      </trans-unit>
+      <trans-unit id="366c5c4a49ec8759a47feba73a0d0f6f">
+        <source>Files work everywhere. With APCu, answers are served from shared memory first, which helps on busy stores. Files are used when APCu is not available.</source>
+        <target>Dateien funktionieren überall. Mit APCu werden Antworten zuerst aus dem gemeinsamen Arbeitsspeicher geliefert, was stark besuchten Shops hilft. Ohne APCu werden Dateien verwendet.</target>
+      </trans-unit>
+      <trans-unit id="3ccb37ad1b9c1e34513e6f2b559bb180">
+        <source>Friendly URLs are disabled (Shop Parameters &gt; Traffic &amp; SEO). no404 does nothing in that mode: addresses then look like index.php?id_product=… and carry no path to match.</source>
+        <target>Suchmaschinenfreundliche URLs sind deaktiviert (Shop-Einstellungen &gt; Traffic &amp; SEO). In diesem Modus tut no404 nichts: Die Adressen lauten dann index.php?id_product=… und enthalten keinen Pfad, der sich zuordnen ließe.</target>
+      </trans-unit>
+      <trans-unit id="76e43862e16dbc8ca795d2b165d823e7">
+        <source>If no404 does not answer within this time, the 404 page is shown as usual. Minimum 300, maximum 1500.</source>
+        <target>Antwortet no404 nicht innerhalb dieser Zeit, wird die 404-Seite wie gewohnt angezeigt. Mindestens 300, höchstens 1500.</target>
+      </trans-unit>
+      <trans-unit id="780e2f35b398e509b433b69373ff218c">
+        <source>Invalid API key (404). Copy the key from your site's Integration page in the no404 dashboard; if you rotated the key recently, enter the new one here as well.</source>
+        <target>Ungültiger API-Schlüssel (404). Kopieren Sie den Schlüssel von der Integrationsseite Ihrer Website im no404-Dashboard; wenn Sie den Schlüssel kürzlich erneuert haben, tragen Sie auch hier den neuen ein.</target>
+      </trans-unit>
+      <trans-unit id="7a7db88b11ffb15d3577b02a81c89c90">
+        <source>Invalid token. Reload the page and try again.</source>
+        <target>Ungültiges Token. Laden Sie die Seite neu und versuchen Sie es erneut.</target>
+      </trans-unit>
+      <trans-unit id="a4d4f20fb0b7b6f44c38e818de64a6fe">
+        <source>Last error (%time%): an unexpected error occurred in the module; the 404 page was shown normally. Details are in Advanced Parameters &gt; Logs.</source>
+        <target>Letzter Fehler (%time%): Im Modul ist ein unerwarteter Fehler aufgetreten; die 404-Seite wurde normal angezeigt. Details unter Erweiterte Einstellungen &gt; Logs.</target>
+      </trans-unit>
+      <trans-unit id="6db6ef8b061d45bbf14372b3bbe96c44">
+        <source>Last error (%time%): the no404 API did not recognise the API key (404). Lookups pause for 5 minutes at a time until it is fixed.</source>
+        <target>Letzter Fehler (%time%): Die no404-API hat den API-Schlüssel nicht erkannt (404). Abfragen pausieren jeweils 5 Minuten, bis das behoben ist.</target>
+      </trans-unit>
+      <trans-unit id="3f40674be5003cdddac82aeacec8df19">
+        <source>Last error (%time%): the no404 API refused the request (403). The subscription may be inactive or monitoring for this site paused.</source>
+        <target>Letzter Fehler (%time%): Die no404-API hat die Anfrage abgelehnt (403). Das Abonnement ist möglicherweise inaktiv oder die Überwachung dieser Website pausiert.</target>
+      </trans-unit>
+      <trans-unit id="e253c0cd9315676a174a53ebd4a60675">
+        <source>Leave empty to use PrestaShop's cache directory (%default%). Enter an absolute path only if that directory is not writable on your server.</source>
+        <target>Leer lassen, um das Cache-Verzeichnis von PrestaShop (%default%) zu verwenden. Geben Sie nur dann einen absoluten Pfad ein, wenn dieses Verzeichnis auf Ihrem Server nicht beschreibbar ist.</target>
+      </trans-unit>
+      <trans-unit id="eabdccf986d533a37b8ab889ba661bd4">
+        <source>Lookups are paused for this shop after a recent failure (service unreachable, quota used up or configuration error). They resume automatically within 5 minutes.</source>
+        <target>Nach einem kürzlichen Fehler (Dienst nicht erreichbar, Kontingent aufgebraucht oder Konfigurationsfehler) sind Abfragen für diesen Shop pausiert. Sie werden innerhalb von 5 Minuten automatisch fortgesetzt.</target>
+      </trans-unit>
+      <trans-unit id="76ae9cee56bf7834e10aea508a91aa94">
+        <source>Master switch. When off, 404 pages are shown as they are.</source>
+        <target>Hauptschalter. Ist er aus, werden 404-Seiten unverändert angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="c90f29d2aed1358e3d187bfc367d21cc">
+        <source>No API key has been entered. Save your key and try again.</source>
+        <target>Es wurde kein API-Schlüssel eingegeben. Speichern Sie Ihren Schlüssel und versuchen Sie es erneut.</target>
+      </trans-unit>
+      <trans-unit id="198c74a3ca785a72663fa0373ae2da38">
+        <source>One path prefix per line; URLs starting with these are never sent to no404. Static files, /modules, /img, /themes, the back office and similar paths are excluded automatically.</source>
+        <target>Ein Pfadpräfix pro Zeile; URLs, die damit beginnen, werden nie an no404 gesendet. Statische Dateien, /modules, /img, /themes, das Backoffice und ähnliche Pfade sind automatisch ausgeschlossen.</target>
+      </trans-unit>
+      <trans-unit id="945117fa3ecfaf4e3806f9c1bfd633de">
+        <source>Paste your key</source>
+        <target>Schlüssel einfügen</target>
+      </trans-unit>
+      <trans-unit id="2d5696418dca213eb234e8d07408d828">
+        <source>Rate limit exceeded, or your monthly event quota is used up (429). Check your quota in the no404 dashboard; if you sent many requests in a short time, try again in a minute.</source>
+        <target>Anfragelimit überschritten oder monatliches Ereigniskontingent aufgebraucht (429). Prüfen Sie Ihr Kontingent im no404-Dashboard; wenn Sie in kurzer Zeit viele Anfragen gesendet haben, versuchen Sie es in einer Minute erneut.</target>
+      </trans-unit>
+      <trans-unit id="8b6830609dc240471302fb0e30a16a7a">
+        <source>Redirecting is switched off. 404 pages are shown as they are.</source>
+        <target>Die Weiterleitung ist ausgeschaltet. 404-Seiten werden unverändert angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="7d1aee08b38fd7d1c0a66eb3214c359c">
+        <source>Saved key: %key% — leave the API key field empty to keep it.</source>
+        <target>Gespeicherter Schlüssel: %key% — lassen Sie das Feld API-Schlüssel leer, um ihn zu behalten.</target>
+      </trans-unit>
+      <trans-unit id="33576eb7625c8fd4efe777847cc59a86">
+        <source>Send every match as a 301</source>
+        <target>Jeden Treffer als 301 senden</target>
+      </trans-unit>
+      <trans-unit id="cdb3e5195b6c2df71cac55666605bc9e">
+        <source>Sends one real request to no404 with the saved settings of the current shop context. Save your changes first.</source>
+        <target>Sendet eine echte Anfrage mit den gespeicherten Einstellungen des aktuellen Shop-Kontexts an no404. Speichern Sie zuerst Ihre Änderungen.</target>
+      </trans-unit>
+      <trans-unit id="f4f70727dc34561dfde1a3c529b6205c">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="7999811db2fbb58e00317d44aaefd763">
+        <source>Stops bots that request the same dead URL over and over from using up your monthly quota. Default 3600 (1 hour); minimum 60, maximum 604800 (7 days).</source>
+        <target>Verhindert, dass Bots, die dieselbe tote URL immer wieder abrufen, Ihr monatliches Kontingent verbrauchen. Standard 3600 (1 Stunde); mindestens 60, höchstens 604800 (7 Tage).</target>
+      </trans-unit>
+      <trans-unit id="660fc9e01f52fb7f8a715e51167c4f8d">
+        <source>Test the connection</source>
+        <target>Verbindung testen</target>
+      </trans-unit>
+      <trans-unit id="1e9731b0f033754e9df1973d1fd77b0f">
+        <source>Testing…</source>
+        <target>Wird getestet…</target>
+      </trans-unit>
+      <trans-unit id="84408f0feb1437368a734acad7d054d5">
+        <source>The PHP curl extension is missing, so no404 cannot contact the service. Ask your host to enable it.</source>
+        <target>Die PHP-Erweiterung curl fehlt, daher kann no404 den Dienst nicht erreichen. Bitten Sie Ihren Hoster, sie zu aktivieren.</target>
+      </trans-unit>
+      <trans-unit id="da89503b333856e2760785f0ea893f03">
+        <source>The cache directory %dir% is not writable. Redirects still work, but every 404 is looked up again, so your quota is not protected. Fix the directory permissions.</source>
+        <target>Das Cache-Verzeichnis %dir% ist nicht beschreibbar. Weiterleitungen funktionieren weiterhin, aber jeder 404-Fehler wird erneut abgefragt, sodass Ihr Kontingent nicht geschützt ist. Korrigieren Sie die Verzeichnisrechte.</target>
+      </trans-unit>
+      <trans-unit id="e2578d8393886a47951fb20cb35ccf8b">
+        <source>The cache directory must be an absolute path to an existing, writable directory. The previous value has been kept.</source>
+        <target>Das Cache-Verzeichnis muss ein absoluter Pfad zu einem vorhandenen, beschreibbaren Verzeichnis sein. Der vorherige Wert wurde beibehalten.</target>
+      </trans-unit>
+      <trans-unit id="e4935bba34f0e413e3e0fd2f258ae355">
+        <source>The no404 address is empty.</source>
+        <target>Die no404-Adresse ist leer.</target>
+      </trans-unit>
+      <trans-unit id="e64ab65d5945e2aff6d028cc890c1c95">
+        <source>The no404 address must be a valid http(s) URL. The previous value has been kept. Leave the field empty to restore the default.</source>
+        <target>Die no404-Adresse muss eine gültige http(s)-URL sein. Der vorherige Wert wurde beibehalten. Ein leeres Feld stellt den Standard wieder her.</target>
+      </trans-unit>
+      <trans-unit id="3685ae4925b460db13d27e8f48421944">
+        <source>The no404 address redirects somewhere else, so no answer could be read. Check the address in the settings — it is usually the www form of the domain.</source>
+        <target>Die no404-Adresse leitet woanders hin weiter, daher konnte keine Antwort gelesen werden. Prüfen Sie die Adresse in den Einstellungen — meist ist es die Domain mit www.</target>
+      </trans-unit>
+      <trans-unit id="262c2232120dbb173446430d1ceb14cb">
+        <source>The no404 address redirects somewhere else. Enter %address% in the &quot;no404 address&quot; field, save, and test again.</source>
+        <target>Die no404-Adresse leitet woanders hin weiter. Tragen Sie %address% in das Feld „no404-Adresse“ ein, speichern Sie und testen Sie erneut.</target>
+      </trans-unit>
+      <trans-unit id="117ae863294b31354fda341e67ba7661">
+        <source>The service rejected the test path (422). Please contact no404 support.</source>
+        <target>Der Dienst hat den Testpfad abgelehnt (422). Bitte wenden Sie sich an den no404-Support.</target>
+      </trans-unit>
+      <trans-unit id="ff8460158bc5848e53bed23055e09b5a">
+        <source>The submitted settings could not be read. Reload the page and try again.</source>
+        <target>Die gesendeten Einstellungen konnten nicht gelesen werden. Laden Sie die Seite neu und versuchen Sie es erneut.</target>
+      </trans-unit>
+      <trans-unit id="af945cf05e1d6d39fcdd3ce1a586ddbd">
+        <source>The test could not be completed. Reload the page and try again.</source>
+        <target>Der Test konnte nicht abgeschlossen werden. Laden Sie die Seite neu und versuchen Sie es erneut.</target>
+      </trans-unit>
+      <trans-unit id="48395a63106eea447dc02497223add6f">
+        <source>Timeout (milliseconds)</source>
+        <target>Zeitlimit (Millisekunden)</target>
+      </trans-unit>
+      <trans-unit id="084d5e5a9e2898ee7509ba33ad6b3b02">
+        <source>Turns the 404s of your store into real server-side 301/302 redirects to the closest live URL, using the no404 service.</source>
+        <target>Wandelt die 404-Fehler Ihres Shops mit dem Dienst no404 in echte serverseitige 301/302-Weiterleitungen auf die nächstgelegene aktive URL um.</target>
+      </trans-unit>
+      <trans-unit id="79c2d94a1c07b570e685cec6d0ea3802">
+        <source>Unexpected response (HTTP %status%).</source>
+        <target>Unerwartete Antwort (HTTP %status%).</target>
+      </trans-unit>
+      <trans-unit id="aa4d36ac73711116162c8311bef89165">
+        <source>Uninstall no404? Its settings, including the API key, and its local cache will be deleted.</source>
+        <target>no404 deinstallieren? Die Einstellungen einschließlich des API-Schlüssels und der lokale Cache werden gelöscht.</target>
+      </trans-unit>
+      <trans-unit id="04795f888bff07eac83c73a61be6238f">
+        <source>You should not need to touch this — the default, %default%, is the right address. Change it only if you host no404 on your own server. Leave the field empty to restore the default.</source>
+        <target>Hier müssen Sie normalerweise nichts ändern — die Standardadresse %default% ist richtig. Ändern Sie sie nur, wenn Sie no404 auf Ihrem eigenen Server betreiben. Ein leeres Feld stellt den Standard wieder her.</target>
+      </trans-unit>
+      <trans-unit id="a90dcf353e735bc9f98e1aa8a54a5d26">
+        <source>no404 address</source>
+        <target>no404-Adresse</target>
+      </trans-unit>
+      <trans-unit id="ba03db8ab09aff36c5ed70e7e97467ef">
+        <source>no404 hit a temporary error (5xx). Your shop is unaffected; try again shortly.</source>
+        <target>Bei no404 ist ein vorübergehender Fehler aufgetreten (5xx). Ihr Shop ist nicht betroffen; versuchen Sie es in Kürze erneut.</target>
+      </trans-unit>
+      <trans-unit id="cabda8157cae62c0e896e640a376e096">
+        <source>no404 is not running yet: no API key has been entered.</source>
+        <target>no404 läuft noch nicht: Es wurde kein API-Schlüssel eingegeben.</target>
+      </trans-unit>
+      <trans-unit id="b7bb841766622571fdb46425198dee9d">
+        <source>no404 – Auto 404 Redirect</source>
+        <target>no404 – Automatische 404-Weiterleitung</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,43 @@
+# PrestaShop 8 line (1.x). In the PrestaShop 8 zip this file replaces
+# config/admin/services.yml (bin/build.php). Differences from the PrestaShop 9
+# file: the legacy service ids PrestaShop 8.0 – 8.2 all define, and the settings
+# controller is not a service — it reads the form handler from the container.
+#
+# Back-office services only. The storefront needs none: the 404 hooks build
+# their objects directly, and the front container does not know the admin form
+# services these definitions depend on.
+services:
+  _defaults:
+    public: false
+
+  prestashop.module.no404.form.type.settings:
+    class: 'PrestaShop\Module\No404\Form\SettingsFormType'
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  prestashop.module.no404.form.settings_data_configuration:
+    class: 'PrestaShop\Module\No404\Form\SettingsDataConfiguration'
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - '@prestashop.adapter.shop.context'
+      - '@prestashop.adapter.multistore_feature'
+      - '@translator'
+
+  prestashop.module.no404.form.settings_data_provider:
+    class: 'PrestaShop\Module\No404\Form\SettingsFormDataProvider'
+    arguments:
+      - '@prestashop.module.no404.form.settings_data_configuration'
+
+  # Public: the PrestaShop 8 controller reads it with $this->get().
+  prestashop.module.no404.form.settings_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    public: true
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.module.no404.form.settings_data_provider'
+      - 'PrestaShop\Module\No404\Form\SettingsFormType'
+      - 'No404Settings'
+      - 'no404_settings'

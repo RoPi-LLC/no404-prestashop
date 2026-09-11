@@ -1,0 +1,140 @@
+{#
+ # no404 – Auto 404 Redirect for PrestaShop
+ #
+ # NOTICE OF LICENSE
+ #
+ # This source file is subject to the Academic Free License version 3.0
+ # that is bundled with this package in the file LICENSE.
+ # It is also available through the world-wide-web at this URL:
+ # https://opensource.org/licenses/AFL-3.0
+ #
+ # @author    no404 <https://www.no404.tr>
+ # @copyright 2026 no404
+ # @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ #}
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  {% for item in status %}
+    <div class="alert alert-{{ item.level }}" role="alert">
+      <p class="alert-text">
+        {% if item.code == 'active' %}
+          {{ 'Active. 404s on this shop are redirected server-side.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'no_curl' %}
+          {{ 'The PHP curl extension is missing, so no404 cannot contact the service. Ask your host to enable it.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'no_key' %}
+          {{ 'no404 is not running yet: no API key has been entered.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'disabled' %}
+          {{ 'Redirecting is switched off. 404 pages are shown as they are.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'rewriting_off' %}
+          {{ 'Friendly URLs are disabled (Shop Parameters > Traffic & SEO). no404 does nothing in that mode: addresses then look like index.php?id_product=… and carry no path to match.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'cache_unwritable' %}
+          {{ 'The cache directory %dir% is not writable. Redirects still work, but every 404 is looked up again, so your quota is not protected. Fix the directory permissions.'|trans({'%dir%': cacheDirectory}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'apcu_unavailable' %}
+          {{ 'APCu is selected as the cache backend but is not available on this server; files are used instead.'|trans({}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'last_error_invalid_key' %}
+          {{ 'Last error (%time%): the no404 API did not recognise the API key (404). Lookups pause for 5 minutes at a time until it is fixed.'|trans({'%time%': item.params.at|date('Y-m-d H:i')}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'last_error_forbidden' %}
+          {{ 'Last error (%time%): the no404 API refused the request (403). The subscription may be inactive or monitoring for this site paused.'|trans({'%time%': item.params.at|date('Y-m-d H:i')}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'last_error_exception' %}
+          {{ 'Last error (%time%): an unexpected error occurred in the module; the 404 page was shown normally. Details are in Advanced Parameters > Logs.'|trans({'%time%': item.params.at|date('Y-m-d H:i')}, 'Modules.No404.Admin') }}
+        {% elseif item.code == 'breaker_open' %}
+          {{ 'Lookups are paused for this shop after a recent failure (service unreachable, quota used up or configuration error). They resume automatically within 5 minutes.'|trans({}, 'Modules.No404.Admin') }}
+        {% endif %}
+      </p>
+    </div>
+  {% endfor %}
+
+  {{ form_start(settingsForm, {'action': path('no404_settings_save')}) }}
+  <div class="card">
+    <h3 class="card-header">
+      <i class="material-icons">settings</i> {{ 'Settings'|trans({}, 'Modules.No404.Admin') }}
+    </h3>
+    <div class="card-body">
+      {% if maskedKey %}
+        <p class="text-muted">
+          {{ 'Saved key: %key% — leave the API key field empty to keep it.'|trans({'%key%': maskedKey}, 'Modules.No404.Admin') }}
+        </p>
+      {% endif %}
+      <div class="form-wrapper">
+        {{ form_widget(settingsForm) }}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" id="no404-save-button">
+          {{ 'Save'|trans({}, 'Admin.Actions') }}
+        </button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(settingsForm) }}
+
+  <div class="card">
+    <h3 class="card-header">
+      <i class="material-icons">network_check</i> {{ 'Connection test'|trans({}, 'Modules.No404.Admin') }}
+    </h3>
+    <div class="card-body">
+      <p>
+        {{ 'Sends one real request to no404 with the saved settings of the current shop context. Save your changes first.'|trans({}, 'Modules.No404.Admin') }}
+      </p>
+      <button type="button"
+              class="btn btn-outline-secondary"
+              id="no404-test-button"
+              data-url="{{ path('no404_settings_test') }}"
+              data-token="{{ csrf_token(csrfTestConnection) }}"
+              data-testing="{{ 'Testing…'|trans({}, 'Modules.No404.Admin') }}"
+              data-failed="{{ 'The test could not be completed. Reload the page and try again.'|trans({}, 'Modules.No404.Admin') }}">
+        {{ 'Test the connection'|trans({}, 'Modules.No404.Admin') }}
+      </button>
+      <div id="no404-test-result" class="alert mt-3 d-none" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    (function () {
+      function init() {
+        var button = document.getElementById('no404-test-button');
+        var out = document.getElementById('no404-test-result');
+        if (!button || !out) {
+          return;
+        }
+
+        function show(kind, text) {
+          out.className = 'alert mt-3 alert-' + kind;
+          // textContent: the message may quote the service's own words; never render it as HTML.
+          out.textContent = text;
+        }
+
+        button.addEventListener('click', function () {
+          var body = new FormData();
+          body.append('_csrf_token', button.getAttribute('data-token'));
+          button.disabled = true;
+          show('info', button.getAttribute('data-testing'));
+
+          fetch(button.getAttribute('data-url'), {
+            method: 'POST',
+            body: body,
+            credentials: 'same-origin',
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}
+          })
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+              show(data && data.ok ? 'success' : 'danger', data && data.message ? data.message : button.getAttribute('data-failed'));
+            })
+            .catch(function () { show('danger', button.getAttribute('data-failed')); })
+            .then(function () { button.disabled = false; });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+{% endblock %}

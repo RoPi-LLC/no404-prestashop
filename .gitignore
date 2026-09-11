@@ -1,0 +1,13 @@
+# Internal documents (engineering plan, notes, test logs). NEVER published:
+# keep anything merchants or the public should not see in this folder.
+/_internal/
+
+# Development dependencies and tool caches. The release zip carries its own
+# production vendor/ (autoloader only), built by bin/build.php.
+/vendor/
+/.phpunit.cache/
+/.php-cs-fixer.cache
+/build/
+
+# dist/ IS tracked: it holds the ready-to-install module zip for people who
+# download the repository instead of using the PrestaShop Addons marketplace.

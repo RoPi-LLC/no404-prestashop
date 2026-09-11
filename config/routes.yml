@@ -1,0 +1,27 @@
+# _legacy_controller ties each route to the hidden AdminNo404 tab, which is what
+# the permission checks (#[AdminSecurity]) and the back-office menu rely on.
+no404_settings:
+  path: /no404/settings
+  methods: [GET]
+  defaults:
+    _controller: 'PrestaShop\Module\No404\Controller\Admin\SettingsController::indexAction'
+    _legacy_controller: AdminNo404
+    _legacy_link: AdminNo404
+
+# PATCH: with multistore checkboxes on the form, PrestaShop submits partial data
+# with the PATCH method.
+no404_settings_save:
+  path: /no404/settings
+  methods: [POST, PATCH]
+  defaults:
+    _controller: 'PrestaShop\Module\No404\Controller\Admin\SettingsController::saveAction'
+    _legacy_controller: AdminNo404
+    _legacy_link: AdminNo404
+
+no404_settings_test:
+  path: /no404/settings/test
+  methods: [POST]
+  defaults:
+    _controller: 'PrestaShop\Module\No404\Controller\Admin\SettingsController::testConnectionAction'
+    _legacy_controller: AdminNo404
+    _legacy_link: AdminNo404

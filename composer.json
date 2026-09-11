@@ -1,0 +1,56 @@
+{
+    "name": "no404/prestashop-module",
+    "description": "no404 – Auto 404 Redirect for PrestaShop: real server-side 301/302 redirects for the 404s of a store.",
+    "type": "prestashop-module",
+    "license": "AFL-3.0",
+    "homepage": "https://www.no404.tr",
+    "authors": [
+        {
+            "name": "no404",
+            "homepage": "https://www.no404.tr"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "~1.0",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+        "phpunit/phpunit": "^10.5",
+        "prestashop/php-dev-tools": "^5.0",
+        "symfony/cache": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "PrestaShop\\Module\\No404\\": "src/"
+        },
+        "classmap": [
+            "no404.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PrestaShop\\Module\\No404\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "prepend-autoloader": false,
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.0"
+        },
+        "platform-check": false,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "translations": "php bin/translations.php",
+        "translations:check": "php bin/translations.php --check"
+    }
+}
