@@ -4,10 +4,10 @@
   <img src="screen/screen_01.webp" alt="no404 turns the 404s of a PrestaShop store into server-side 301/302 redirects to the closest live page" width="100%">
 </p>
 
-> **Status: in development — not released.** The core, the storefront redirect and the
-> settings page (with the connection test and a Turkish translation) are written and
-> unit-tested, but nothing has been run on a real PrestaShop installation yet. Anything
-> marked *planned* is not available today.
+> **Status: ready to use.** Two lines of the same module: **2.0.0** for PrestaShop 9 and
+> **1.0.0** for PrestaShop 8 — both ready-made zips are in [`dist/`](dist/). Not on the
+> PrestaShop Addons marketplace yet (see [Installation](#installation)); anything marked
+> *planned* is not available today.
 
 Turns the dead URLs of your PrestaShop store — deleted products, removed categories,
 renamed pages — into real, server-side **301/302 redirects** to the closest live URL in
@@ -19,7 +19,8 @@ your current catalogue, using the [no404](https://www.no404.tr) service.
 
 no404 is a hosted service that watches the 404 traffic of a website and finds, for each
 dead address, the closest valid URL in the site's **current** catalogue. The catalogue is
-built from the sitemap you submit through Google Search Console; matching compares the words in the address, so `/old-red-sneaker-42` still finds `/red-sneakers-42` after a rename.
+built from the sitemap you submit through Google Search Console; matching is fuzzy and
+tolerant of renames, so `/old-red-sneaker-42` still finds `/red-sneakers-42`.
 
 You connect Google Search Console, pick a verified property, and get an API key. Any
 integration — the JavaScript snippet, the WordPress plugin, or this module — sends the

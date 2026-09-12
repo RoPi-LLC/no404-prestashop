@@ -15,7 +15,7 @@ The PrestaShop 9 line is numbered above the PrestaShop 8 line on purpose: a stor
 that upgrades PrestaShop from 8 to 9 is then offered 2.x as a module upgrade, and
 keeps its settings.
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2026-09-12
 
 First release of the PrestaShop 9 line (PrestaShop 9.0 and newer, PHP 8.1+).
 Prepared as 1.0.0 and renumbered before publication, when 1.x went to the
@@ -57,7 +57,7 @@ PrestaShop 8 line.
 - Optional debug headers (`X-No404-Source`, `X-No404-Score`, `X-No404-Skip`).
 - Translations: English (source), Turkish, German, French, Spanish.
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2026-09-12
 
 First release of the PrestaShop 8 line (PrestaShop 8.0 – 8.2, PHP 7.2+). Same
 features, settings and translations as 2.0.0, with these differences:
