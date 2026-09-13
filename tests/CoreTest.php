@@ -397,6 +397,74 @@ final class CoreTest extends TestCase
         $this->assertSame('https://store.example/new', is_array($r) ? $r['redirect'] : null, 'the cached redirect is still used');
     }
 
+    // === detectAiSource (only the category leaves the store) ===
+
+    public static function aiCases()
+    {
+        return [
+            'utm_source=chatgpt.com' => ['/eer21?utm_source=chatgpt.com', '', 'chatgpt'],
+            'utm_source is trimmed and lower-cased' => ['/x?utm_medium=referral&utm_source=ChatGPT.com', '', 'chatgpt'],
+            'chatgpt.com referrer' => ['/x', 'https://chatgpt.com/', 'chatgpt'],
+            'scheme-less referrer is read as https' => ['/x', 'chatgpt.com/c/1', 'chatgpt'],
+            'www. is stripped' => ['/x', 'https://www.perplexity.ai/search?q=a', 'perplexity'],
+            'claude.ai referrer' => ['/x', 'https://claude.ai/chat/1', 'claude'],
+            'gemini referrer' => ['/x', 'https://gemini.google.com/app', 'gemini'],
+            'copilot referrer' => ['/x', 'https://copilot.microsoft.com/', 'copilot'],
+            'utm_source wins over the referrer' => ['/x?utm_source=perplexity', 'https://www.google.com/', 'perplexity'],
+            'search is not AI' => ['/x', 'https://www.google.com/', ''],
+            'a look-alike domain is not AI' => ['/x', 'https://evilchatgpt.com/', ''],
+            'chatgpt.com as a subdomain of another site is not AI' => ['/x', 'https://chatgpt.com.evil.net/', ''],
+            'utm_source is an exact whitelist' => ['/x?utm_source=chatbot-kampanya', '', ''],
+            'odd key constructor' => ['/x?utm_source=constructor', '', ''],
+            'odd key __proto__' => ['/x?utm_source=__proto__', '', ''],
+            'non-http referrer' => ['', 'about:blank', ''],
+            'subdomain of an AI host' => ['/x', 'https://labs.perplexity.ai/', 'perplexity'],
+            'm. is stripped, trailing dot too' => ['/x', 'https://m.chatgpt.com./', 'chatgpt'],
+            'utm_source in the fragment is ignored' => ['/x#utm_source=chatgpt.com', '', ''],
+            'utm_source as an array is ignored' => ['/x?utm_source[]=chatgpt.com', '', ''],
+            'deepseek -> other' => ['/x?utm_source=deepseek', '', 'other'],
+            'meta.ai referrer -> meta' => ['/x', 'https://www.meta.ai/', 'meta'],
+        ];
+    }
+
+    #[DataProvider('aiCases')]
+    public function testDetectAiSource($uri, $referrer, $expected)
+    {
+        $this->assertSame($expected, self::plain()->detectAiSource($uri, $referrer));
+    }
+
+    public function testAnAiClickSkipsTheCacheReadAndSendsOnlyTheCategory()
+    {
+        $http = new FakeHttp();
+        $client = self::client($http, new FakeCache());
+        $http->queue = [FakeHttp::ok(self::HIT), FakeHttp::ok(self::HIT)];
+
+        $client->resolve('/old-product');
+        $this->assertStringNotContainsString('src=', $http->lastUrl, 'no src without an AI category');
+
+        $client->resolve('/old-product', '', '', [], 'chatgpt');
+        $this->assertSame(2, $http->calls, 'an AI click reaches the API even when the path is cached');
+        $this->assertStringContainsString('&src=chatgpt', $http->lastUrl, 'only the category is sent');
+
+        $client->resolve('/old-product');
+        $this->assertSame(2, $http->calls, 'other traffic still uses the cache');
+
+        $client->resolve('/old-product', '', '', [], 'chatgpt.com');
+        $this->assertSame(2, $http->calls, 'an unknown category is dropped and the cache is used');
+    }
+
+    public function testAnAiClickFallsBackToTheCacheWhenNo404IsDown()
+    {
+        $http = new FakeHttp();
+        $client = self::client($http, new FakeCache());
+        $http->queue = [FakeHttp::ok(self::HIT), FakeHttp::transportError('timeout')];
+
+        $client->resolve('/old-product');
+        $r = $client->resolve('/old-product', '', '', [], 'claude');
+
+        $this->assertSame('https://store.example/new', is_array($r) ? $r['redirect'] : null, 'the cached redirect is still used');
+    }
+
     public function testAnUnconfiguredClientStaysSilent()
     {
         $http = new FakeHttp();

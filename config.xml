@@ -2,7 +2,7 @@
 <module>
     <name>no404</name>
     <displayName><![CDATA[no404 – Auto 404 Redirect]]></displayName>
-    <version><![CDATA[2.0.0]]></version>
+    <version><![CDATA[2.1.0]]></version>
     <description><![CDATA[Turns the 404s of your store into real server-side 301/302 redirects to the closest live URL, using the no404 service.]]></description>
     <author><![CDATA[no404]]></author>
     <tab><![CDATA[seo]]></tab>

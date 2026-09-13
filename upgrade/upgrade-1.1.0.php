@@ -13,18 +13,19 @@
  * @copyright 2026 no404
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-
-namespace PrestaShop\Module\No404;
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
 /**
- * The module version in one place, readable from Symfony controllers without
- * loading the legacy module class. Must match config.xml and no404.php.
+ * 1.1.0 (PrestaShop 8 line) recognises visitors arriving from AI assistants and
+ * sends the category (`src=`). No settings, hooks or cache entries change.
+ *
+ * @param No404 $module
+ *
+ * @return bool
  */
-final class Version
+function upgrade_module_1_1_0($module)
 {
-    public const CURRENT = '2.1.0';
+    return true;
 }

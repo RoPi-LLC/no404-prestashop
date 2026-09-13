@@ -69,6 +69,59 @@ class Client
         'remarketing',
     ];
 
+    /** AI-assistant categories the no404 API accepts in `src=` (it drops anything else). */
+    public const AI_SOURCES = ['chatgpt', 'claude', 'perplexity', 'gemini', 'copilot', 'meta', 'other'];
+
+    /**
+     * `utm_source` value (lower case, EXACT match) → AI category. Same list as the
+     * server (lib/ai-source.ts). A whitelist: not every value containing "chat" is
+     * an AI assistant (`utm_source=chatbot-campaign`).
+     */
+    public const AI_UTM_SOURCES = [
+        'chatgpt.com' => 'chatgpt',
+        'chatgpt' => 'chatgpt',
+        'openai' => 'chatgpt',
+        'openai.com' => 'chatgpt',
+        'claude.ai' => 'claude',
+        'claude' => 'claude',
+        'perplexity' => 'perplexity',
+        'perplexity.ai' => 'perplexity',
+        'gemini' => 'gemini',
+        'gemini.google.com' => 'gemini',
+        'copilot' => 'copilot',
+        'copilot.com' => 'copilot',
+        'copilot.microsoft.com' => 'copilot',
+        'meta.ai' => 'meta',
+        'deepseek' => 'other',
+        'grok' => 'other',
+        'grok.com' => 'other',
+        'mistral' => 'other',
+        'you.com' => 'other',
+    ];
+
+    /**
+     * Referrer host → AI category. The host matches the domain itself or any of
+     * its subdomains. Chat/assistant products only: google.com is search, not AI.
+     */
+    public const AI_REFERRER_HOSTS = [
+        'chatgpt.com' => 'chatgpt',
+        'chat.openai.com' => 'chatgpt',
+        'claude.ai' => 'claude',
+        'perplexity.ai' => 'perplexity',
+        'perplexity.com' => 'perplexity',
+        'gemini.google.com' => 'gemini',
+        'bard.google.com' => 'gemini',
+        'copilot.microsoft.com' => 'copilot',
+        'copilot.cloud.microsoft' => 'copilot',
+        'meta.ai' => 'meta',
+        'chat.deepseek.com' => 'other',
+        'grok.com' => 'other',
+        'chat.mistral.ai' => 'other',
+        'you.com' => 'other',
+        'poe.com' => 'other',
+        'phind.com' => 'other',
+    ];
+
     /** CATALOG matches above this score count as permanent (301). */
     public const HIGH_CONFIDENCE_SCORE = 0.5;
 
@@ -232,6 +285,10 @@ class Client
      * paid click; answering them from the cache would leave them uncounted in the
      * dashboard. If no404 cannot be reached, the cached result is still used.
      *
+     * AI CLICKS: the same rule applies when `$src` is a known AI-assistant
+     * category (see detectAiSource) — every visitor sent by ChatGPT, Claude… is
+     * counted, with the same fall-back to the cache when no404 is down.
+     *
      * VISITOR: the request leaves from the store's server, so without `$visitor`
      * no404 would record every 404 under the server's IP and the module's user
      * agent. See visitorHeaders(): the IP is truncated to its network before it is sent.
@@ -240,10 +297,11 @@ class Client
      * @param string $referrer where the visitor came from (optional)
      * @param string $ad ad category from detectAdCategory() ('' = not an ad click)
      * @param array<string, mixed> $visitor ip / user_agent / country of the visitor (optional)
+     * @param string $src AI category from detectAiSource() ('' = not from an AI assistant)
      *
      * @return array<string, mixed>|null found/redirect/score/source/redirect_status, or null when there is no redirect
      */
-    public function resolve($path, $referrer = '', $ad = '', array $visitor = [])
+    public function resolve($path, $referrer = '', $ad = '', array $visitor = [], $src = '')
     {
         $this->lastLookup = self::LOOKUP_SKIPPED;
         $this->lastStatus = 0;
@@ -262,10 +320,11 @@ class Client
             }
 
             $ad = in_array($ad, self::AD_CATEGORIES, true) ? $ad : '';
+            $src = in_array($src, self::AI_SOURCES, true) ? $src : '';
             $key = $this->cacheKey($path);
             $cached = $this->cache->get($key);
             $cached = (is_array($cached) && isset($cached['source'])) ? $cached : null;
-            if (null !== $cached && '' === $ad) {
+            if (null !== $cached && '' === $ad && '' === $src) {
                 $this->lastLookup = self::LOOKUP_CACHE;
 
                 return $cached;
@@ -281,7 +340,7 @@ class Client
 
             $this->lastLookup = self::LOOKUP_API;
             $response = $this->http->get(
-                $this->buildUrl($path, $referrer, $ad),
+                $this->buildUrl($path, $referrer, $ad, $src),
                 $this->timeoutMs,
                 $this->userAgent,
                 array_merge($this->authHeaders(), $this->visitorHeaders($visitor))
@@ -289,7 +348,7 @@ class Client
 
             $result = $this->handleResponse($response, $key);
 
-            // An ad click that could not be answered falls back to what we knew.
+            // An ad or AI click that could not be answered falls back to what we knew.
             return (null === $result && null !== $cached) ? $cached : $result;
         } catch (\Throwable $e) {
             return null;
@@ -694,10 +753,11 @@ class Client
      * @param string $path the normalised path
      * @param string $referrer referrer
      * @param string $ad ad category ('' = not an ad click)
+     * @param string $src AI category ('' = not from an AI assistant)
      *
      * @return string
      */
-    protected function buildUrl($path, $referrer, $ad = '')
+    protected function buildUrl($path, $referrer, $ad = '', $src = '')
     {
         $query = 'path=' . rawurlencode($path);
 
@@ -707,6 +767,9 @@ class Client
         }
         if (in_array($ad, self::AD_CATEGORIES, true)) {
             $query .= '&ad=' . $ad;
+        }
+        if (in_array($src, self::AI_SOURCES, true)) {
+            $query .= '&src=' . $src;
         }
 
         return $this->apiBase . '/api/v1/resolve?' . $query;
@@ -839,20 +902,11 @@ class Client
      */
     public function detectAdCategory($rawUri)
     {
-        $raw = (string) $rawUri;
-        $q = strpos($raw, '?');
-        if (false === $q) {
+        $params = self::queryParams($rawUri);
+        if ([] === $params) {
             return '';
         }
 
-        $query = substr($raw, $q + 1);
-        $hash = strpos($query, '#');
-        if (false !== $hash) {
-            $query = substr($query, 0, $hash);
-        }
-
-        $params = [];
-        parse_str($query, $params);
         $value = function ($key) use ($params) {
             return (isset($params[$key]) && is_string($params[$key])) ? strtolower(trim($params[$key])) : '';
         };
@@ -898,6 +952,107 @@ class Client
         }
 
         return 'other';
+    }
+
+    /**
+     * Works out whether the visitor clicked through from an AI assistant. Returns
+     * only the CATEGORY — chatgpt, claude, perplexity, gemini, copilot, meta,
+     * other — or '' otherwise. Mirrors the no404 server (lib/ai-source.ts,
+     * detectAiReferral); the first evidence wins:
+     *   1. `utm_source` from the RAW request URI (ChatGPT adds utm_source=chatgpt.com
+     *      and often sends no referrer — then this is the only evidence);
+     *   2. the referrer's host, or any of its subdomains.
+     * The raw query string never leaves the store.
+     *
+     * @param string $rawUri request URI, query string included, e.g. /product?utm_source=chatgpt.com
+     * @param string $referrer the visitor's Referer header ('' when absent)
+     *
+     * @return string
+     */
+    public function detectAiSource($rawUri, $referrer = '')
+    {
+        $params = self::queryParams($rawUri);
+        $utm = (isset($params['utm_source']) && is_string($params['utm_source']))
+            ? strtolower(trim($params['utm_source']))
+            : '';
+        if ('' !== $utm && array_key_exists($utm, self::AI_UTM_SOURCES)) {
+            return self::AI_UTM_SOURCES[$utm];
+        }
+
+        $host = self::referrerHost($referrer);
+        if ('' === $host) {
+            return '';
+        }
+        foreach (self::AI_REFERRER_HOSTS as $domain => $source) {
+            if ($host === $domain || substr($host, -strlen('.' . $domain)) === '.' . $domain) {
+                return $source;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * The host of a referrer, normalised: lower case, no trailing dot, one leading
+     * "www." or "m." removed. Only http(s); a scheme-less value ("chatgpt.com/c/1")
+     * is read as https. Anything else → ''.
+     *
+     * @param mixed $referrer raw Referer header
+     *
+     * @return string
+     */
+    private static function referrerHost($referrer)
+    {
+        $text = trim((string) $referrer);
+        if ('' === $text || preg_match('/[\x00-\x1F\x7F]/', $text)) {
+            return '';
+        }
+        if (!preg_match('/^[a-z][a-z0-9+.\-]*:/i', $text)) {
+            $text = 'https://' . $text;
+        }
+
+        $parts = self::parseUrlParts($text);
+        if (!is_array($parts) || empty($parts['host'])) {
+            return '';
+        }
+        $scheme = isset($parts['scheme']) ? strtolower($parts['scheme']) : '';
+        if ('http' !== $scheme && 'https' !== $scheme) {
+            return '';
+        }
+
+        $host = strtolower((string) $parts['host']);
+        if ('.' === substr($host, -1)) {
+            $host = substr($host, 0, -1);
+        }
+
+        return (string) preg_replace('/^(www|m)\./', '', $host);
+    }
+
+    /**
+     * The query parameters of a raw request URI (the fragment is ignored).
+     *
+     * @param mixed $rawUri request URI, e.g. /product?gclid=abc
+     *
+     * @return array<mixed> parsed parameters, [] when there is no query string
+     */
+    private static function queryParams($rawUri)
+    {
+        $raw = (string) $rawUri;
+        $q = strpos($raw, '?');
+        if (false === $q) {
+            return [];
+        }
+
+        $query = substr($raw, $q + 1);
+        $hash = strpos($query, '#');
+        if (false !== $hash) {
+            $query = substr($query, 0, $hash);
+        }
+
+        $params = [];
+        parse_str($query, $params);
+
+        return $params;
     }
 
     /**

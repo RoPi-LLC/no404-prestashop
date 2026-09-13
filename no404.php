@@ -41,7 +41,7 @@ class No404 extends Module
         // file. This tree is the PrestaShop 9 line; bin/build.php checks both
         // against platform/ps9/target.json and stamps the PrestaShop 8 values
         // (platform/ps8/target.json) into the PrestaShop 8 zip.
-        $this->version = '2.0.0';
+        $this->version = '2.1.0';
         $this->author = 'no404';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => '9.99.99'];

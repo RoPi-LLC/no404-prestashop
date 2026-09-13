@@ -4,8 +4,8 @@
   <img src="screen/screen_01.webp" alt="no404 turns the 404s of a PrestaShop store into server-side 301/302 redirects to the closest live page" width="100%">
 </p>
 
-> **Status: ready to use.** Two lines of the same module: **2.0.0** for PrestaShop 9 and
-> **1.0.0** for PrestaShop 8 — both ready-made zips are in [`dist/`](dist/). Not on the
+> **Status: ready to use.** Two lines of the same module: **2.1.0** for PrestaShop 9 and
+> **1.1.0** for PrestaShop 8 — both ready-made zips are in [`dist/`](dist/). Not on the
 > PrestaShop Addons marketplace yet (see [Installation](#installation)); anything marked
 > *planned* is not available today.
 
@@ -201,6 +201,11 @@ Every lookup is a single HTTPS request from your server to the no404 service.
   `google`, `microsoft`, `meta` or `other` — worked out locally from the click-ID or
   `utm_medium`/`utm_source` parameters. The click IDs themselves (`gclid`, `msclkid`, …) and
   the rest of the query string never leave your server.
+- When the visitor arrived from an AI assistant (ChatGPT, Claude, Perplexity, Gemini,
+  Copilot…), the assistant's **category** only — `chatgpt`, `claude`, `perplexity`,
+  `gemini`, `copilot`, `meta` or `other` — worked out locally from a known `utm_source`
+  value (for example `utm_source=chatgpt.com`) or from the referrer's host. The
+  `utm_source` value and the rest of the query string never leave your server.
 - The visitor's IP address **truncated to its network**: the last part of an IPv4 address is
   set to zero (`203.0.113.45` becomes `203.0.113.0`), and only the first 48 bits of an IPv6
   address are kept. Private and local addresses are not sent. Behind Cloudflare or a reverse
@@ -229,9 +234,10 @@ A module of your own can change those values — for example to read the IP from
 header this module does not know — or set `$params['visitor'] = []` to send none.
 
 Query strings are not sent because tracking parameters would fragment the local cache and
-multiply quota usage. The ad category above is enough for the "ad traffic" breakdown in the
-no404 dashboard; a 404 reached from an ad is always looked up (not answered from the cache)
-so that every paid click is counted.
+multiply quota usage. The ad and AI categories above are enough for the "ad traffic" and
+"AI traffic" breakdowns in the no404 dashboard; a 404 reached from an ad or from an AI
+assistant is always looked up (not answered from the cache) so that every such visit is
+counted.
 
 **Service provider:** no404 — https://www.no404.tr · Terms: https://www.no404.tr/en/terms ·
 Privacy: https://www.no404.tr/en/privacy

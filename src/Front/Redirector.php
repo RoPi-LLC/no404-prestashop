@@ -127,8 +127,11 @@ final class Redirector
         // Ad measurement: only the CATEGORY (google, meta…) leaves the store, never
         // the raw click ID. Read from the raw URI, before the query string is dropped.
         $ad = $this->client->detectAdCategory($request->uri());
+        // AI assistants (ChatGPT, Claude…): likewise only the category, from
+        // utm_source or the referrer's host.
+        $src = $this->client->detectAiSource($request->uri(), $request->referer());
 
-        $result = $this->client->resolve($path, $request->referer(), $ad, $request->visitor());
+        $result = $this->client->resolve($path, $request->referer(), $ad, $request->visitor(), $src);
         $lookup = $this->client->lastLookup();
         $apiStatus = $this->client->lastStatus();
 

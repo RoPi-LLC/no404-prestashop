@@ -15,6 +15,27 @@ The PrestaShop 9 line is numbered above the PrestaShop 8 line on purpose: a stor
 that upgrades PrestaShop from 8 to 9 is then offered 2.x as a module upgrade, and
 keeps its settings.
 
+## [2.1.0] - 2026-09-13
+
+### Added
+
+- Recognises visitors arriving from AI assistants (ChatGPT, Claude, Perplexity,
+  Gemini, Copilot…) and reports only the category to no404. The category —
+  `chatgpt`, `claude`, `perplexity`, `gemini`, `copilot`, `meta` or `other` — is
+  worked out on your server from `utm_source` or the referrer's host and sent as
+  `src=`; the query string itself is still never sent. Like an ad click, a 404
+  reached from an AI assistant is always looked up (not answered from the cache)
+  so every such visit is counted.
+
+## [1.1.0] - 2026-09-13
+
+PrestaShop 8 line. Same change as 2.1.0:
+
+### Added
+
+- Recognises visitors arriving from AI assistants (ChatGPT, Claude, Perplexity,
+  Gemini, Copilot…) and reports only the category to no404.
+
 ## [2.0.0] - 2026-09-12
 
 First release of the PrestaShop 9 line (PrestaShop 9.0 and newer, PHP 8.1+).

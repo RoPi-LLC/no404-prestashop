@@ -1,6 +1,6 @@
 {
     "label": "PrestaShop 9",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "ps_min": "9.0.0",
     "ps_max": "9.99.99",
     "php_min": "8.1"

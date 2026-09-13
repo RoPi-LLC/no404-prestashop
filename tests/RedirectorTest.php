@@ -233,6 +233,41 @@ final class RedirectorTest extends TestCase
         $this->assertStringNotContainsString('secret-click-id', $this->http->lastUrl);
     }
 
+    public function testOnlyTheAiCategoryLeavesTheStore()
+    {
+        $this->redirector()->handle(new RequestContext('/old?utm_source=chatgpt.com'));
+
+        $this->assertStringContainsString('&src=chatgpt', $this->http->lastUrl);
+        $this->assertStringNotContainsString('utm_source', $this->http->lastUrl);
+        $this->assertStringNotContainsString('chatgpt.com', $this->http->lastUrl);
+    }
+
+    public function testAnAiReferrerIsReportedAsItsCategory()
+    {
+        $this->redirector()->handle(new RequestContext('/old', 'GET', 'https://claude.ai/chat/1'));
+
+        $this->assertStringContainsString('&src=claude', $this->http->lastUrl);
+    }
+
+    public function testNoSrcIsSentForOrdinaryTraffic()
+    {
+        $this->redirector()->handle(new RequestContext('/old?utm_source=newsletter', 'GET', 'https://www.google.com/'));
+
+        $this->assertStringNotContainsString('src=', $this->http->lastUrl);
+    }
+
+    public function testAnAiClickBypassesTheCacheRead()
+    {
+        $this->http->queue = [self::match(), self::match()];
+        $this->redirector()->handle(new RequestContext('/12-old-product.html'));
+        $outcome = $this->redirector()->handle(new RequestContext('/12-old-product.html?utm_source=perplexity'));
+
+        $this->assertTrue($outcome->isRedirect());
+        $this->assertSame(Client::LOOKUP_API, $outcome->lookup());
+        $this->assertSame(2, $this->http->calls, 'the AI click is counted by the API');
+        $this->assertStringContainsString('&src=perplexity', $this->http->lastUrl);
+    }
+
     public function testTheRefererIsForwarded()
     {
         $this->redirector()->handle(new RequestContext('/old', 'GET', 'https://www.google.com/'));
